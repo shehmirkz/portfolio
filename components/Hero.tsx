@@ -30,7 +30,7 @@ const Hero = () => {
                             words="Transforming Concepts into Seampless User Experience"
                         />
                         <p className="text-center md:tracking-wider mb-4 text-sm md:text-lg lg:text-2xl">
-                            Hi I'm Shehmir Hussain, a Frontend Developer
+                            Hi I&apos;m Shehmir Hussain, a Frontend Developer
                         </p>
 
                         <a href="#about">
