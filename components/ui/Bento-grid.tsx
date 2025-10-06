@@ -110,26 +110,30 @@ export const BentoGridItem = ({
                     {id === 2 && <GlobeDemo />}
 
                     {id === 3 && (
-                        <div className="flex gap-1 lg:gap-5 w-fit absolute -right-3 lg:-right:2 top-1">
-                            <div className="flex flex-col  gap-3 lg:gap-8">
-                                {['React.js', 'Next.js', 'Typescript',].map((item) => (
-                                    <span key={item} className="py-2 lg:py4 px-3 lg:px-3 text-xs lg:text-base opacity-30 lg:opacity-50 rounded-lg text-center bg-[#10132E] font-normal">
-                                        {item}
+                        <div className="flex flex-col items-center justify-center text-center text-white h-full gap-6">
+                            <h3 className="text-3xl lg:text-4xl font-bold">My Tech Stack</h3>
+
+                            <div className="flex flex-wrap justify-center gap-4 mt-2">
+                                {[
+                                    "HTML",
+                                    "CSS/SCSS",
+                                    "JavaScript",
+                                    "React.js",
+                                    "Next.js",
+                                    "Python",
+                                    "React Native",
+                                    "TypeScript",
+                                    "Odoo",
+                                    "Payload CMS",
+                                ].map((tech) => (
+                                    <span
+                                        key={tech}
+                                        className="px-5 py-2.5 bg-white/10 border border-white/20 rounded-full text-base font-medium hover:bg-white/20 transition-transform hover:scale-105"
+                                    >
+                                        {tech}
                                     </span>
                                 ))}
-                                <span className="py-4 px-3 rounded-lg text-center bg-[#10132E]" />
                             </div>
-
-                            <div className="flex flex-col  gap-3 lg:gap-8">
-                                <span className="py-4 px-3 rounded-lg text-center bg-[#10132E]" />
-                                {['React-Native', 'JavaScript', 'Odoo',].map((item) => (
-                                    <span key={item} className="py-2 lg:py4 px-3 lg:px-3 text-xs lg:text-base opacity-30 lg:opacity-50 rounded-lg text-center bg-[#10132E] font-normal">
-                                        {item}
-                                    </span>
-                                ))}
-
-                            </div>
-
                         </div>
                     )}
 
