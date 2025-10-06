@@ -16,20 +16,18 @@ const Clients = () => {
                     direction='right'
                     speed='slow'
                 />
-                <div className='flex flex-wrap items-center justify-center gap-4 md:gap-16 max-lg:mt-10 '>
-                    {companies.map(({ id, img, name, nameImg }) => (
-                        <div key={id} className='flex md:max-w-60 max-w-32 gap-2'>
+                <div className="flex flex-wrap items-center justify-center gap-6 md:gap-16 max-lg:mt-10">
+                    {companies.map(({ id, img, name }) => (
+                        <div
+                            key={id}
+                            className="flex flex-col items-center justify-center md:max-w-40 max-w-32"
+                        >
                             <img
                                 src={img}
                                 alt={name}
-                                className='md:w-10 w-5'
+                                className="md:w-24 w-16 object-contain transition-transform duration-300 hover:scale-105"
                             />
 
-                            <img
-                                src={nameImg}
-                                alt={name}
-                                className='md:w-24 w-20'
-                            />
                         </div>
                     ))}
                 </div>
