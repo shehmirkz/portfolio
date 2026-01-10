@@ -1,10 +1,35 @@
 import {withSentryConfig} from '@sentry/nextjs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import webpack from 'webpack';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'export',
     typescript: {
         ignoreBuildErrors: true,
-    }
+    },
+    webpack: (config, { isServer }) => {
+        if (isServer) {
+            // Use the server stub for three-globe during SSR
+            config.resolve.alias = {
+                ...config.resolve.alias,
+                'three-globe': path.resolve(__dirname, 'three-globe-server-stub.js'),
+            };
+            
+            // Replace three-globe module with stub using NormalModuleReplacementPlugin
+            config.plugins.push(
+                new webpack.NormalModuleReplacementPlugin(
+                    /^three-globe$/,
+                    path.resolve(__dirname, 'three-globe-server-stub.js')
+                )
+            );
+        }
+        return config;
+    },
 };
 
 export default withSentryConfig(nextConfig, {
