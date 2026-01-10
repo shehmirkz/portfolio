@@ -1,17 +1,15 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Color, Scene, Fog, PerspectiveCamera, Vector3 } from "three";
-import ThreeGlobe from "three-globe";
 import { useThree, Object3DNode, Canvas, extend } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import countries from "@/data/globe.json";
+
 declare module "@react-three/fiber" {
     interface ThreeElements {
-        threeGlobe: Object3DNode<ThreeGlobe, typeof ThreeGlobe>;
+        threeGlobe: Object3DNode<any, any>;
     }
 }
-
-extend({ ThreeGlobe });
 
 const RING_PROPAGATION_SPEED = 3;
 const aspect = 1.2;
@@ -59,6 +57,22 @@ interface WorldProps {
 }
 
 let numbersOfRings = [0];
+let ThreeGlobeClass: any = null;
+let isExtended = false;
+
+const initThreeGlobe = async () => {
+    if (typeof window === 'undefined' || ThreeGlobeClass) return;
+    try {
+        const threeGlobeModule = await import("three-globe");
+        ThreeGlobeClass = threeGlobeModule.default;
+        if (!isExtended) {
+            extend({ ThreeGlobe: ThreeGlobeClass });
+            isExtended = true;
+        }
+    } catch (e) {
+        console.error('Failed to load three-globe:', e);
+    }
+};
 
 export function Globe({ globeConfig, data }: WorldProps) {
     const [globeData, setGlobeData] = useState<
@@ -71,8 +85,17 @@ export function Globe({ globeConfig, data }: WorldProps) {
         }[]
         | null
     >(null);
+    const [isReady, setIsReady] = useState(false);
 
-    const globeRef = useRef<ThreeGlobe | null>(null);
+    const globeRef = useRef<any | null>(null);
+
+    // Ensure we're on the client side
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+        initThreeGlobe().then(() => {
+            setIsReady(true);
+        });
+    }, []);
 
     const defaultProps = {
         pointSize: 1,
@@ -92,11 +115,11 @@ export function Globe({ globeConfig, data }: WorldProps) {
     };
 
     useEffect(() => {
-        if (globeRef.current) {
+        if (globeRef.current && isReady) {
             _buildData();
             _buildMaterial();
         }
-    }, [globeRef.current]);
+    }, [globeRef.current, isReady]);
 
     const _buildMaterial = () => {
         if (!globeRef.current) return;
@@ -149,7 +172,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
     };
 
     useEffect(() => {
-        if (globeRef.current && globeData) {
+        if (globeRef.current && globeData && isReady) {
             globeRef.current
                 .hexPolygonsData(countries.features)
                 .hexPolygonResolution(3)
@@ -162,7 +185,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
                 });
             startAnimation();
         }
-    }, [globeData]);
+    }, [globeData, isReady]);
 
     const startAnimation = () => {
         if (!globeRef.current || !globeData) return;
@@ -203,7 +226,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
     };
 
     useEffect(() => {
-        if (!globeRef.current || !globeData) return;
+        if (!globeRef.current || !globeData || !isReady) return;
 
         const interval = setInterval(() => {
             if (!globeRef.current || !globeData) return;
@@ -221,7 +244,11 @@ export function Globe({ globeConfig, data }: WorldProps) {
         return () => {
             clearInterval(interval);
         };
-    }, [globeRef.current, globeData]);
+    }, [globeRef.current, globeData, isReady]);
+
+    if (typeof window === 'undefined' || !isReady) {
+        return null;
+    }
 
     return (
         <>
@@ -234,10 +261,12 @@ export function WebGLRendererConfig() {
     const { gl, size } = useThree();
 
     useEffect(() => {
-        gl.setPixelRatio(window.devicePixelRatio);
+        if (typeof window !== 'undefined') {
+            gl.setPixelRatio(window.devicePixelRatio);
+        }
         gl.setSize(size.width, size.height);
         gl.setClearColor(0xffaaff, 0);
-    }, []);
+    }, [gl, size.width, size.height]);
 
     return null;
 }
