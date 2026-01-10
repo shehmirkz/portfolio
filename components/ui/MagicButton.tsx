@@ -1,3 +1,4 @@
+"use client";
 import React, { ReactNode } from 'react'
 
 const MagicButton = ({ title, icon, position, handleClick, otherClasses }: {
