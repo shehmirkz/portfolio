@@ -2,12 +2,12 @@
 
 import { cn } from "@/utils/cn";
 import { BackgroundGradientAnimation } from "./Background-gradient-animation";
-import { GlobeDemo } from "./GridGlobe";
 import Lottie from "react-lottie";
 import { useState } from "react";
 import animationData from '@/data/confetti.json'
 import MagicButton from "./MagicButton";
 import { IoCopyOutline } from "react-icons/io5";
+import { GlobeBackground } from "./GlobeBackground";
 
 export const BentoGrid = ({
     className,
@@ -54,8 +54,10 @@ export const BentoGridItem = ({
     const [copied, setCopied] = useState(false);
 
     const handleCopy = () => {
-        navigator.clipboard.writeText('shahmir.hussain.khanzada@gmail.com');
-        setCopied(true);
+        if (typeof navigator !== 'undefined' && navigator.clipboard) {
+            navigator.clipboard.writeText('shahmir.hussain.khanzada@gmail.com');
+            setCopied(true);
+        }
     }
 
     return (
@@ -89,6 +91,12 @@ export const BentoGridItem = ({
                     )}
                 </div>
 
+                {id === 2 && (
+                    <div className="absolute inset-0 w-full h-full -z-0 opacity-50 pointer-events-none">
+                        <GlobeBackground />
+                    </div>
+                )}
+
                 {id === 6 && (
                     <BackgroundGradientAnimation>
                         {/* <div className="absoulte z-50 flex items-center justify-center text-white font-bold" /> */}
@@ -107,7 +115,6 @@ export const BentoGridItem = ({
                     </div>
 
 
-                    {id === 2 && <GlobeDemo />}
 
                     {id === 3 && (
                         <div className="flex flex-col items-center justify-center text-center text-white h-full gap-6">
