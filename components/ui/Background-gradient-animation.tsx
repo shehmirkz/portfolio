@@ -42,7 +42,9 @@ export const BackgroundGradientAnimation = ({
     const [isSafari, setIsSafari] = useState(false);
 
     useEffect(() => {
-        setIsSafari(/^((?!chrome|android).)*safari/i.test(navigator.userAgent));
+        if (typeof navigator !== 'undefined') {
+            setIsSafari(/^((?!chrome|android).)*safari/i.test(navigator.userAgent));
+        }
         setIsMounted(true); // Mark component as mounted
     }, []);
 
