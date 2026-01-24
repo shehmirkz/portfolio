@@ -1,3 +1,4 @@
+"use client";
 import { projects } from '@/data'
 import React from 'react'
 import { PinContainer } from './ui/3d-pin'
@@ -8,7 +9,7 @@ const RecentProjects = () => {
         <div className='py-20' id='projects'>
             <h1 className='heading'>
                 A Small section of {' '}
-                <span className='text-purple'>Recent Projects</span>
+                <div className='text-purple'>Recent Projects</div>
             </h1>
             <div className='flex flex-wrap items-center justify-center p-4 gap-x-24 gap-y-8 mt-10'>
                 {projects.map(({
