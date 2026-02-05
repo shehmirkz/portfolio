@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Spotlight } from "./ui/Spotlight";
 import { TextGenerateEffect } from "./ui/Text-generate-effect";
@@ -19,18 +20,18 @@ const Hero = () => {
                 <div className="flex justify-center relative my-20 z-10">
                     <div className="max-w-[89vw] md:max-w-2xl lg:max-w-[60vw] flex flex-col items-center justify-center">
                         <h2 className="uppercase tracking-widest text-xs text-center text-blue-100 max-w-80">
-                            Building Impactful Interfaces with React & Next.js
+                            Building Impactful Interfaces with JavaScript, React, and Next.js
                         </h2>
 
                         <TextGenerateEffect
-                            className="text-center text-[40px] md:text-5xl lg:text-5xl"
+                            className="text-center text-[40px] md:text-5xl lg:text-2xl"
                             words="Crafting Modern Web & Mobile Experiences that Inspire"
                         />
 
                         <p className="text-center md:tracking-wider mb-4 text-sm md:text-lg lg:text-3xl">
                             Hi, I&apos;m{" "}
                             <span
-                                className="font-semibold"
+                                className="font-semibold lg:text-5xl"
                                 style={{ color: "#cbacf9" }}
                             >
                                 Shehmir Hussain
