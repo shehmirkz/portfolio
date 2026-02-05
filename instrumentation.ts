@@ -1,5 +1,3 @@
-import * as Sentry from '@sentry/nextjs';
-
 // Set up document polyfill for three-globe during SSR
 if (typeof globalThis !== 'undefined' && typeof globalThis.document === 'undefined') {
   globalThis.document = {
@@ -28,13 +26,5 @@ if (typeof global !== 'undefined' && typeof (global as any).document === 'undefi
 }
 
 export async function register() {
-  if (process.env.NEXT_RUNTIME === 'nodejs') {
-    await import('./sentry.server.config');
-  }
-
-  if (process.env.NEXT_RUNTIME === 'edge') {
-    await import('./sentry.edge.config');
-  }
+  // Reserved for future instrumentation (e.g. OpenTelemetry)
 }
-
-export const onRequestError = Sentry.captureRequestError;
